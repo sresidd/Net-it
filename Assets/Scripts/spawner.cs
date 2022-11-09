@@ -46,47 +46,83 @@ public class spawner : MonoBehaviour
         initialPlayerPos = playerParent.transform.position;
         Factor();
         question.text = "What are the factors of "+ factor.ToString() + " ?";
+
+        
         for(int i = 0;i<goalsNeeded;i++){
-            GameObject randomPoint = shootingPoints[Random.Range(0,shootingPoints.Count)];
-            while(temp.Contains(randomPoint))
-            {
-                randomPoint = shootingPoints[Random.Range(0,shootingPoints.Count)];
-            }
-            temp.Add(randomPoint);
-            Vector2 randomPosition = randomPoint.transform.position;
-            GameObject spot = Instantiate(item, randomPosition, Quaternion.identity) as GameObject;
-            RandomList.Add(spot);
-            spot.transform.localScale = Vector2.one;
-            spot.transform.SetParent(randomPoint.transform,true);
-            spot.transform.localScale = Vector2.one;
-            int randomFactor = factors[(Random.Range(0,factors.Count-1))];
-            spot.transform.GetChild(1).GetComponent<TMP_Text>().text = randomFactor.ToString();
-            spot.GetComponent<movePlayer>().OnGoal+= MoveRandom;
-            spot.GetComponent<movePlayer>().OnShoot += CheckChances;
-            spot.GetComponent<movePlayer>().OnReset+=EnableButtons;
-            factors.Remove(randomFactor);
+            SpawnPoints(factors,factors.Count -1);
+            #region 
+            // GameObject randomPoint = shootingPoints[Random.Range(0,shootingPoints.Count)];
+            // while(temp.Contains(randomPoint))
+            // {
+            //     randomPoint = shootingPoints[Random.Range(0,shootingPoints.Count)];
+            // }
+            // temp.Add(randomPoint);
+            // Vector2 randomPosition = randomPoint.transform.position;
+            // GameObject spot = Instantiate(item, randomPosition, Quaternion.identity) as GameObject;
+            // RandomList.Add(spot);
+            // spot.transform.localScale = Vector2.one;
+            // spot.transform.SetParent(randomPoint.transform,true);
+            // spot.transform.localScale = Vector2.one;
+            // int randomFactor = factors[(Random.Range(0,factors.Count-1))];
+            // spot.transform.GetChild(1).GetComponent<TMP_Text>().text = randomFactor.ToString();
+            // spot.GetComponent<movePlayer>().OnGoal+= MoveRandom;
+            // spot.GetComponent<movePlayer>().OnShoot += CheckChances;
+            // spot.GetComponent<movePlayer>().OnReset+=EnableButtons;
+            // factors.Remove(randomFactor);
+            #endregion
         }
         for(int i = goalsNeeded;i<spawnNumber;i++){
-            GameObject randomPoint = shootingPoints[Random.Range(0,shootingPoints.Count)];
-            while(temp.Contains(randomPoint))
-            {
-                randomPoint = shootingPoints[Random.Range(0,shootingPoints.Count)];
-            }
-            temp.Add(randomPoint);
-            Vector2 randomPosition = randomPoint.transform.position;
-            GameObject spot = Instantiate(item, randomPosition, Quaternion.identity) as GameObject;
-            RandomList.Add(spot);
-            spot.transform.localScale = Vector2.one;
-            spot.transform.SetParent(randomPoint.transform,true);
-            spot.transform.localScale = Vector2.one;
-            int randomFactor = notFactors[(Random.Range(0,notFactors.Count  ))];
-            spot.transform.GetChild(1).GetComponent<TMP_Text>().text = randomFactor.ToString();
-            spot.GetComponent<movePlayer>().OnShoot += CheckChances;
-            spot.GetComponent<movePlayer>().OnReset+=EnableButtons;
-            notFactors.Remove(randomFactor);
+            SpawnPoints(notFactors,notFactors.Count);
+            #region 
+            // GameObject randomPoint = shootingPoints[Random.Range(0,shootingPoints.Count)];
+            // while(temp.Contains(randomPoint))
+            // {
+            //     randomPoint = shootingPoints[Random.Range(0,shootingPoints.Count)];
+            // }
+            // temp.Add(randomPoint);
+            // Vector2 randomPosition = randomPoint.transform.position;
+            // GameObject spot = Instantiate(item, randomPosition, Quaternion.identity) as GameObject;
+            // RandomList.Add(spot);
+            // spot.transform.localScale = Vector2.one;
+            // spot.transform.SetParent(randomPoint.transform,true);
+            // spot.transform.localScale = Vector2.one;
+            // int randomFactor = notFactors[(Random.Range(0,notFactors.Count))];
+            // spot.transform.GetChild(1).GetComponent<TMP_Text>().text = randomFactor.ToString();
+            // spot.GetComponent<movePlayer>().OnShoot += CheckChances;
+            // spot.GetComponent<movePlayer>().OnReset+=EnableButtons;
+            // notFactors.Remove(randomFactor);
+            #endregion
         }
 
     }
+
+    [System.Obsolete]
+    void SpawnPoints(List<int> fac,int count){
+
+
+        GameObject randomPoint = shootingPoints[Random.Range(0,shootingPoints.Count)];
+            while(temp.Contains(randomPoint))
+            {
+                randomPoint = shootingPoints[Random.Range(0,shootingPoints.Count)];
+            }
+            temp.Add(randomPoint);
+            Vector2 randomPosition = randomPoint.transform.position;
+            GameObject spot = Instantiate(item, randomPosition, Quaternion.identity) as GameObject;
+            RandomList.Add(spot);
+            spot.transform.localScale = Vector2.one;
+            spot.transform.SetParent(randomPoint.transform,true);
+            spot.transform.localScale = Vector2.one;
+            int randomFactor = fac[(Random.Range(0,count))];
+            spot.transform.GetChild(1).GetComponent<TMP_Text>().text = randomFactor.ToString();
+            
+            if(fac == factors)
+                spot.GetComponent<movePlayer>().OnGoal+= MoveRandom;
+            
+            spot.GetComponent<movePlayer>().OnShoot += CheckChances;
+            spot.GetComponent<movePlayer>().OnReset+=EnableButtons;
+            fac.Remove(randomFactor);
+    }
+
 
     private void EnableButtons()
     {
